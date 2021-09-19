@@ -1,0 +1,136 @@
+:root {
+  --bg-1: lightblue;
+  --cube-col: rgba(128, 0, 128, 0.74);
+  --rotateSpeed: 40s;
+  --bounceSpeed: 2s;
+}
+
+*,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-size: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #000;
+  perspective: 15em;
+  perspective-origin: 50% calc(50% - 4em);
+}
+.scene {
+  position: relative;
+  transform-style: preserve-3d;
+  animation: rotateSceen var(--rotateSpeed) infinite linear;
+}
+
+@keyframes rotateSceen {
+  to {
+    transform: rotateY(360deg);
+  }
+}
+.ball {
+  position: absolute;
+  border-radius: 50%;
+  height: 1em;
+  width: 1em;
+  background-color: var(--bg-1);
+  bottom: 1em;
+  left: -0.5em;
+  background-image: radial-gradient(circle at top, lightblue, 40%, #000);
+  animation: rotateSceen var(--rotateSpeed) infinite linear reverse,
+    ballBounce var(--bounceSpeed) infinite ease-out;
+}
+@keyframes ballBounce {
+  0%,
+  100% {
+    bottom: 0.5em;
+  }
+  50% {
+    bottom: 4em;
+    animation-timing-function: ease-in;
+  }
+}
+
+.cube {
+  position: absolute;
+  width: 2em;
+  height: 2em;
+
+  left: -1em;
+  top: -1em;
+}
+
+.front,
+.back,
+.left,
+.right {
+  position: absolute;
+  background-color: var(--cube-col);
+  height: 100%;
+  width: 100%;
+  box-shadow: 0 0 0.5em #000 inset;
+}
+
+.front {
+  transform: translateZ(1em);
+}
+.right {
+  transform: rotateY(90deg) translateZ(1em);
+}
+.back {
+  transform: rotateY(180deg) translateZ(1em);
+}
+.left {
+  transform: rotateY(270deg) translateZ(1em);
+}
+.top {
+  width: 2em;
+  height: 2em;
+  transform: rotateX(90deg) translateZ(1em);
+  background-color: var(--cube-col);
+}
+.ballshadow {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(#0009, #0000 30%);
+  animation: shadowCast var(--bounceSpeed) infinite ease-out;
+}
+@keyframes shadowCast {
+  0%,
+  100% {
+    trasnform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(3);
+    opacity: 0.5;
+    animation-timing-function: ease-in;
+  }
+}
+
+.bottom {
+  transform: translateY(50%) rotateX(90deg);
+  position: absolute;
+  bottom: 0;
+  background-color: #0007;
+  box-shadow: 0 0 0.5em #000;
+  width: 2em;
+  height: 2em;
+}
+.floor {
+  width: 15em;
+  height: 15em;
+  background-image: radial-gradient(#0000, #000 75%),
+    repeating-conic-gradient(from 45deg, #222 0deg 90deg, #888 90deg 180deg);
+  background-size: 100%, 1em 1em;
+  transform: translate(-50%, -50%) rotateX(90deg);
+  top: 1em;
+  position: absolute;
+}
